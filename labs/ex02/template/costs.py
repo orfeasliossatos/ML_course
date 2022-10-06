@@ -3,9 +3,6 @@
 
 import numpy as np
 
-
-
-
 def compute_loss(y, tx, w):
     """Calculate the loss using either MSE or MAE.
 
@@ -21,4 +18,4 @@ def compute_loss(y, tx, w):
     # INSERT YOUR CODE HERE
     # TODO: compute loss by MSE
     # ***************************************************
-    raise NotImplementedError
+    return np.sum((y - tx @ w) ** 2) / (2 * y.shape[0]);
