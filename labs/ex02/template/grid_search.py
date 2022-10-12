@@ -56,4 +56,4 @@ def grid_search_full(y, tx, num_intervals):
     """
     grid_w0, grid_w1 = generate_w(num_intervals)
     losses = grid_search(y, tx, grid_w0, grid_w1)
-    return get_best_parameters(w0, w1, losses)
+    return get_best_parameters(grid_w0, grid_w1, losses)

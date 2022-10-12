@@ -14,8 +14,7 @@ def compute_loss(y, tx, w):
     Returns:
         the value of the loss (a scalar), corresponding to the input parameters w.
     """
-    # ***************************************************
-    # INSERT YOUR CODE HERE
-    # TODO: compute loss by MSE
-    # ***************************************************
-    return np.sum((y - tx @ w) ** 2) / (2 * y.shape[0]);
+    N = len(y)
+    e = y - tx @ w
+    mse = (1 / (2 * N)) * e.T @ e
+    return mse
