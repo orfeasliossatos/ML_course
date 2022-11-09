@@ -1,0 +1,183 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "id": "played-network",
+   "metadata": {},
+   "source": [
+    "# 1 Convexity"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "partial-border",
+   "metadata": {},
+   "source": [
+    "1. The affine function $f(x)=ax+b$ is convex, where $a,b,x$ are scalars\n",
+    "*proof*. \n",
+    "\n",
+    "$a(\\theta x + (1-\\theta) y)+b$ \\\n",
+    "$=a(\\theta x + (1-\\theta) y)+(\\theta + (1-\\theta))b$ \\\n",
+    "$=\\theta (ax + b) + (1-\\theta)(yx+b)$\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "sustainable-strain",
+   "metadata": {},
+   "source": [
+    "2. If multiple functions $f_n(x)$ are convex over a fixed domain, then their sum $g(x)=\\sum_nf_n(x)$ is convex over the same domain.\n",
+    "*proof*. \n",
+    "\n",
+    "$g(\\theta x + (1-\\theta)y)$ \\\n",
+    "$=\\sum_nf_n(\\theta x + (1-\\theta)y)$ \\\n",
+    "$\\leq \\sum_n\\theta f_n(x) + (1-\\theta)f(y)$ \\\n",
+    "$=\\theta\\sum_nf_n(x) + (1-\\theta)\\sum_nf_n(y)$ \\\n",
+    "$=\\theta g(x) + (1-\\theta)g(y)$"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "agreed-authority",
+   "metadata": {},
+   "source": [
+    "3. Take $f,g:\\mathbb{R}\\rightarrow\\mathbb{R}$ to be convex functions and $g$ to be increasing. Then the function $g \\circ f$ defined as $(g \\circ f)(x)=g(f(x))$ is also convex.\n",
+    "\n",
+    "*proof*.\n",
+    "\n",
+    "$g(f(\\theta x +(1-\\theta)y))$ \\\n",
+    "$\\leq g(\\theta f(x) + (1-\\theta)f(y))$ \\\n",
+    "$\\leq \\theta g(f(x)) + (1-\\theta)g(f(y))$"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "hybrid-premises",
+   "metadata": {},
+   "source": [
+    "4. If $f:\\mathbb{R}\\rightarrow\\mathbb{R}$ is convex, then $g:\\mathbb{R}^D\\rightarrow\\mathbb{R}$ where $x\\mapsto g(x)=f(w^Tx+b)$ is also convex. Here $w\\in\\mathbb{R}^D$, $b\\in\\mathbb{R}$.\n",
+    "\n",
+    "*proof*.\n",
+    "\n",
+    "$g(\\theta x + (1-\\theta)y)$ \\\n",
+    "$=f(w^T(\\theta x + (1-\\theta)y)) + b)$ \\\n",
+    "$=f(\\theta w^Tx + (1-\\theta) w^Ty + (\\theta + (1- \\theta)) b)$ \\\n",
+    "$=f(\\theta (w^Tx+b) + (1-\\theta) (w^Ty+b))$ \\\n",
+    "$\\leq \\theta f(w^Tx+b) + (1-\\theta) f(w^Ty+b)$ \\\n",
+    "$=\\theta g(x) + (1-\\theta)g(y)$"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "packed-wrist",
+   "metadata": {},
+   "source": [
+    "5. Let $f:\\mathbb{R}^D\\rightarrow\\mathbb{R}$ be strictly convex. Let $x^*$ be a global minimizer of $f$. Show that this global minimizer is unique. \n",
+    "\n",
+    "*proof*.\n",
+    "\n",
+    "Suppose that that there were two global minimizers $x$, $x'$ such that $f(x)=f(x')=c$. \\\n",
+    "Then $f(\\frac{1}{2}x+\\frac{1}{2}x')<\\frac{1}{2}f(x) + \\frac{1}{2}f(x') = c$, which contracticts the minimality of $x$ and $x'$. \\\n",
+    "Therefore, there must only be one global minimizer."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "cooperative-torture",
+   "metadata": {},
+   "source": [
+    "# Extension of Logistic Regression to Multi-Class Classfication."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "ultimate-assets",
+   "metadata": {},
+   "source": [
+    "1. Derive the negative log-likelihood for this model\n",
+    "\n",
+    "$\\mathcal{L}(w_1,\\dots,w_K)$ \\\n",
+    "$=-\\frac{1}{N}\\ln\\prod_{n=1}^N p(y_n|x,w_1,\\dots,w_K)$ \\\n",
+    "$=-\\frac{1}{N}\\ln\\prod_{n:y_n=1}p(y_n=1|x,w_1,\\dots,w_K)\\times\\dots\\times\\prod_{n:y_n=K}p(y_n=K|x,w_1,\\dots,w_K)$ \\\n",
+    "$=-\\frac{1}{N}\\ln\\prod_{n=1}^N \\frac{\\exp(\\eta_{n1})^{1_{y_n=1}}}{\\sum_{j=1}^K \\exp(\\eta_{nj})}\\times\\dots\\times\\frac{\\exp(\\eta_{nK})^{1_{y_n=K}}}{\\sum_{j=1}^K \\exp(\\eta_{nj})}$ \\\n",
+    "$=-\\frac{1}{N}\\sum_{n=1}^N \\ln\\frac{\\exp(\\eta_{n1})^{1_{y_n=1}}}{\\sum_{j=1}^K \\exp(\\eta_{nj})}\\times\\dots\\times\\frac{\\exp(\\eta_{nK})^{1_{y_n=K}}}{\\sum_{j=1}^K \\exp(\\eta_{nj})}$ \\\n",
+    "$=-\\frac{1}{N}\\sum_{n=1}^N 1_{y_n=1}\\ln\\frac{\\exp(\\eta_{n1})}{\\sum_{j=1}^K \\exp(\\eta_{nj})}+\\dots+1_{y_n=K}\\ln\\frac{\\exp(\\eta_{nK})}{\\sum_{j=1}^K \\exp(\\eta_{nj})}$ \\\n",
+    "$=-\\frac{1}{N}\\sum_{n=1}^N 1_{y_n=1}\\eta_{n1}+\\dots+1_{y_n=K}\\eta_{nK}-K\\ln\\sum_{j=1}^K \\exp(\\eta_{nj})$ \\\n",
+    "$=\\frac{1}{N}\\sum_{n=1}^N K\\ln\\sum_{j=1}^K \\exp(\\eta_{nj}) - w^T_{y_n}x_n$"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "baking-interview",
+   "metadata": {},
+   "source": [
+    "2. Derive the gradient with respect to each w_k\n",
+    "\n",
+    "$\\nabla_{w_k} \\mathcal{L}(w_1,\\dots,w_K)$ \\\n",
+    "$=\\frac{1}{N}\\sum_{n=1}^N x_n ( \\frac{K\\exp(\\eta_{nk})}{\\sum_{j=1}^K\\exp(\\eta_{nj})}- 1_{y_n=k})$"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "weird-chancellor",
+   "metadata": {},
+   "source": [
+    "3. Show that the negative log likelihood is jointly convex in $w_1\\dots w_K$\n",
+    "\n",
+    "*proof*.\n",
+    "\n",
+    "$\\mathcal{L}(w_1,\\dots,w_K)$ is the sum of convex functions. \\\n",
+    "From 1.1, the linear function $w_{y_n}^Tx_n$ is convex. \\\n",
+    "Additionally, the function $\\ln (e^{x_1}+\\dots+e^{x_K})$ is convex in each of $x=(x_1,\\dots,x_K)$. Indeed, \\\n",
+    "a. The gradient is given by $(\\frac{e^{x_i}}{\\sum_{j=1}^Ke^{x_j}})_i$. \\\n",
+    "b. The hessian $H$ is given by $(\\frac{-e^{x_i+x_k}}{(\\sum_{j=1}^Ke^{x_j})^2})_{i\\neq k}$ off the diagonal and $(\\frac{\\sum_{j \\neq i}^Ke^{x_i+x_j}}{(\\sum_{j=1}^Ke^{x_j})^2})_i$ on the diagonal. \\\n",
+    "c. The hessian is positive semidefinite. For any vector $b\\in\\mathbb{R}^K$ we have \\\n",
+    "$b^THb$ \\\n",
+    "$=\\frac{1}{(\\sum_{j=1}^Ke^{x_j})^2}[\\sum_{i}^Kb_i^2\\sum_{j \\neq i}^Ke^{x_j+x_i}-\\sum_{1\\leq i< j\\leq K}2b_ib_je^{x_i+x_j}]$ \\\n",
+    "$=\\frac{1}{(\\sum_{j=1}^Ke^{x_j})^2}[\\sum_{i \\neq j}^Ke^{x_j+x_i}(b_i^2+b_j^2-2b_ib_j)]$ \\\n",
+    "$=\\frac{1}{(\\sum_{j=1}^Ke^{x_j})^2}[\\sum_{i\\neq j}^Ke^{x_j+x_i}(b_i-b_j)^2] \\geq 0$. \\\n",
+    "From 1.4, the composition of a linear function function with a convex function is also convex. So $\\ln \\sum_{j=1}^K\\exp (\\eta_{n,j})$ is convex for all $n$."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "protective-miami",
+   "metadata": {},
+   "source": [
+    "# 3. Mixture of Linear Regression"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "alone-completion",
+   "metadata": {},
+   "source": [
+    "1. Define $r_n$ to be the binary vector of length $K$ such that all but the $k'th$ entry is $0$. Rewrite the likelihood $p(y_n|x_n,w,r_n)$ in terms of $r_{nk}$. \n",
+    "$$p(y_n|x_n,w,r_n)=\\frac{1}{\\sqrt{2\\pi\\sigma^2}}\\exp{\\frac{-(y_n-r_{n}^Tw^Tx_n)^2}{4\\sigma^2}}$$\n",
+    "2. Write the expression for the joint distribution $p(y|X,w,r)$ where $r=\\{r_1,\\dots,r_N\\}$\n",
+    "$$p(y_n|x_n,w,r_n)=\\frac{1}{\\sqrt{2\\pi\\sigma^2}}\\exp\\frac{-1}{4\\sigma^2}\\|y-Xwr\\|$$"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.8.3"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
